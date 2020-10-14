@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+        * {
+            box-sizing: border-box;
+
+        }
+
+        .container {
+            margin-top: 20px;
+
+        }
+
+
+        input {
+            padding: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        /*
+	Max width before this PARTICULAR table gets nasty. This query will take effect for any screen smaller than 760px and also iPads specifically.
+	*/
+        @media only screen and (max-width: 760px),
+        (min-device-width: 768px) and (max-device-width: 1024px) {
+
+            /* Force table to not be like tables anymore */
+            table,
+            thead,
+            tbody,
+            th,
+            td,
+            tr {
+                display: block;
+            }
+
+            /* Hide table headers (but not display: none;, for accessibility) */
+            thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+            tr {
+                margin: 0 0 1rem 0;
+            }
+
+            tr:nth-child(odd) {
+                background: #ccc;
+            }
+
+            td {
+                /* Behave  like a "row" */
+                border: none;
+                border-bottom: 1px solid #eee;
+                position: relative;
+                padding-left: 50%;
+            }
+
+            td:before {
+                /* Now like a table header */
+                position: absolute;
+                /* Top/left values mimic padding */
+                top: 0;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+            }
+
+            /*
+		Label the data
+    You could also use a data-* attribute and content for this. That way "bloats" the HTML, this way means you need to keep HTML and CSS in sync. Lea Verou has a clever way to handle with text-shadow.
+		*/
+            td:nth-of-type(1):before {
+                content: "User_email";
+            }
+
+            td:nth-of-type(2):before {
+                content: "User_name";
+            }
+
+            td:nth-of-type(3):before {
+                content: "Domain_name";
+            }
+
+            td:nth-of-type(4):before {
+                content: "Plan_name";
+            }
+
+            td:nth-of-type(5):before {
+                content: "Resister_date";
+            }
+
+            td:nth-of-type(6):before {
+                content: "Domain_taken";
+            }
+
+            td:nth-of-type(7):before {
+                content: "Domain_charges";
+            }
+
+            td:nth-of-type(8):before {
+                content: "Time_period";
+            }
+
+            td:nth-of-type(9):before {
+                content: "Expiry_date";
+            }
+
+            td:nth-of-type(10):before {
+                content: "Hosting_charges";
+            }
+
+            td:nth-of-type(11):before {
+                content: "Total_charges";
+            }
+        }
+    </style>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row ">
+            <div class="col-sm-4">
+
+                <h3>ALL ACCOUNTS</h3>
+                <h3>Welcome {{customer}}</h3>
+                <div>
+
+                </div>
+                <img src="./nitin.jpg" alt="img" width="100px" height="100px">
+
+            </div>
+        </div>
+
+
+        <div class="row m-20px">
+            <div class="col-sm-4">
+
+                <div id="msg" style="color:midnightblue; font-size:20px;"></div>
+                <div class="col-sm-4 col-md-8">
+
+                    <div class="form-group ">
+                        <h3>Search by filter</h3>
+
+                        <select id='filter' required>
+
+                            <option>Choose..</option>
+                            <option>upcoming expiry</option>
+                            <option>current month expiry</option>
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <table role="table">
+        <thead class="thead-dark">
+
+            <tr role="row">
+                <th role="columnheader">User_email</th>
+                <th role="columnheader">User_name</th>
+                <th role="columnheader">Domain_name</th>
+                <th role="columnheader">Plan_name</th>
+                <th role="columnheader">Resister_date</th>
+                <th role="columnheader">Domain_taken</th>
+                <th role="columnheader">Domain_charges</th>
+                <th role="columnheader">Time_period</th>
+                <th role="columnheader">Expiry_date</th>
+                <th role="columnheader">Hosting_charges</th>
+                <th role="columnheader">Total_charges</th>
+
+
+            </tr>
+        </thead>
+        <tbody role="rowgroup" id="td">
+
+            <div>
+                {{#each data}}
+                <tr>
+                    <td>{{this.email }}</td>
+                    <td>{{this.username }}</td>
+                    <td>{{this.domainname}}</td>
+                    <td>{{this.planname }}</td>
+                    <td>{{this.resisterdate}}</td>
+                    <td>{{this.domaintaken}} </td>
+                    <td> {{this.domaincharges }}</td>
+                    <td>{{this.timeperiod}} </td>
+                    <td>{{this.expirydate}} </td>
+                    <td>{{this.hostingcharges}}</td>
+                    <td>{{this.totalcharges}}</td>
+
+                </tr>
+                {{/each}}
+            </div>
+
+        </tbody>
+    </table>
+
+    
+
+
+
+
+            <script>
+                $(document).ready(function () {
+                    $("#filter").change(function () {
+                        var filter = $("#filter").val()
+                        //var search = $("#search").val()
+
+                        ////////////ajax code
+                        var mydata = "filter=" + filter;
+                        $.ajax({
+                            url: '/checkCustomerAccounts',
+                            data: mydata,
+                            type: 'get',
+                            success: function (res) {
+                                console.log(res)
+                                if (res.data) {
+                                    var row = '';
+                                    for (var i = 0; i < res.data.length; i++) {
+                                        row = row + "<tr>" +
+                                            "<td>" + res.data[i].email + "</td>" +
+
+                                            "<td>" + res.data[i].username + "</td>" +
+                                            "<td>" + res.data[i].domainname + "</td>" +
+                                            "<td>" + res.data[i].planname + "</td>" +
+                                            "<td>" + res.data[i].resisterdate + "</td>" +
+                                            "<td>" + res.data[i].domaintaken + "</td>" +
+                                            "<td>" + res.data[i].domaincharges + "</td>" +
+                                            "<td>" + res.data[i].timeperiod + "</td>" +
+                                            "<td>" + res.data[i].expirydate + "</td>" +
+                                            "<td>" + res.data[i].hostingcharges + "</td>" +
+                                            "<td>" + res.data[i].totalcharges + "</td>" +
+                                            "</tr>"
+                                        $("#td").html(row)
+                                    }
+                                } else {
+                                    var row = '';
+                                    $("#td").html(row)
+
+                                }
+
+                            }
+                        });
+                    });
+                });
+
+
+            </script>
+
+
+</body>
+
+</html>

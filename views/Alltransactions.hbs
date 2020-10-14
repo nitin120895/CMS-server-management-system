@@ -1,0 +1,216 @@
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+
+  <div class="col-sm-4 mt-4 float-right">
+
+    <div>
+      <a class="btn btn-success" href="#" id="btn-transactions" data-toggle="modal" data-target="#alltransaction">View
+        transactions by Date</a>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="alltransaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">All trasactions</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          FROM : <input type="date" id="startdate" name="startdate" required>
+          TO : <input type="date" id="enddate" name="enddate" required>
+
+          <div class="modal-footer">
+
+            <button id="curr_date-btn" class="btn btn-danger">curr_date</button>
+            <button type="button" id="fetch-btn" class="btn btn-danger" data-dismiss="modal">Fetch data</button>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="container">
+    <div class="mt-4">
+
+      <h3>Welcome user {{admin}}</h3>
+      <div class="d-none" id="date-status">
+        <div class="col-sm-4 mt-4  d-flex justify-content-around ">
+          <h5>Data from:</h5>
+          <div id="date1"> </div>
+          <h5>Data to:</h5>
+          <div id="date2"></div>
+        </div>
+      </div>
+
+      <h2>All trasactions</h2>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>User name</th>
+
+            <th>Domain charges</th>
+            <th>Hosting charges per year</th>
+            <th>Plan years</th>
+
+            <th>total charges</th>
+          </tr>
+        </thead>
+        <tbody id="td">
+          <div>
+            {{#each data}}
+            <tr>
+              <td>{{this.username}}</td>
+
+              <td>{{this.domaincharges}}</td>
+              <td>{{this.hostingcharges}}</td>
+              <td>{{this.timeperiod}}</td>
+
+              <td>{{this.totalcharges}}</td>
+            </tr>
+            {{/each}}
+          </div>
+
+          <thead>
+            <tr>
+              <th></th>
+              <th>Total Domain charges</th>
+              <th>Total Hosting charges</th>
+              <th></th>
+
+              <th>Grand total</th>
+            </tr>
+          </thead>
+
+        <tbody id="total-td">
+
+          {{#if totaldata}}
+          <tr>
+            <td></td>
+            <td>{{totaldata.totalDC}}</td>
+            <td>{{totaldata.totalHC}}</td>
+            <td></td>
+            <td>{{totaldata.gtotal}}</td>
+          </tr>
+
+          {{/if}}
+
+        </tbody>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <script>
+
+
+
+    $(document).ready(function () {
+      // $("#curr_date-btn").click(function () {
+
+      //   var currdate = new Date();
+      //   var date = currdate.getDate()
+      //  var month = currdate.getMonth()
+      //  var year = currdate.getFullYear()
+      //  date = date + '-' + month + '-' + year
+      //  $("#enddate").val(date)
+      // $('#datePicker').val(new Date().toDateInputValue());
+      // console.log(enddate)
+      // });
+
+
+      $("#fetch-btn").click(function () {
+        var startdate = $("#startdate").val()
+        var enddate = $("#enddate").val()
+
+        //var search = $("#search").val()  curr_date-btn
+
+        ////////////ajax code
+        var mydata = { startdate, enddate }
+        $.ajax({
+          url: '/ajaxAlltransactions',
+          data: mydata,
+          type: 'get',
+          success: function (res) {
+            console.log(res)
+            if (res.data) {
+              $("#date1").html(startdate);
+              $("#date2").html(enddate)
+              $("#date-status").addClass("d-inline");
+
+
+
+              var row = '';
+              for (var i = 0; i < res.data.length; i++) {
+                row = row + "<tr>" +
+                  "<td>" + res.data[i].username + "</td>" +
+                  "<td>" + res.data[i].domaincharges + "</td>" +
+                  "<td>" + res.data[i].hostingcharges + "</td>" +
+                  "<td>" + res.data[i].timeperiod + "</td>" +
+                  "<td>" + res.data[i].totalcharges + "</td>" +
+                  "</tr>"
+
+                $("#td").html(row)
+              }
+
+              var gtotal = '';
+              for (var j = 0; j < res.totaldata.length; j++) {
+                console.log(res.totaldata)
+
+                gtotal = gtotal + "<tr>" +
+                  "<td>" + "</td>" +
+                  "<td>" + res.totaldata[j].totalDC + "</td>" +
+                  "<td>" + res.totaldata[j].totalHC + "</td>" +
+                  "<td>" + "</td>" +
+                  "<td>" + res.totaldata[j].gtotal + "</td>" +
+                  "</tr>"
+                console.log(gtotal)
+
+                $("#total-td").html(gtotal)
+
+              }
+
+            } else {
+              var row = '';
+              $("#td").html(row)
+
+
+            }
+
+          }
+        });
+
+      });
+    });
+
+
+  </script>
+</body>

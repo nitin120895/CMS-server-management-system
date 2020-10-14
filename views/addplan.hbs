@@ -1,0 +1,86 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>add plan</title>
+
+
+    <style>
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
+  label{
+            font-size: 20px;
+
+        }
+        .form-group{
+            margin-top: 20px;
+        }
+        .container-css {
+            margin-top: 50px;
+            box-sizing: border-box;
+        }
+
+        .inputf-css {
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            outline: none !important;
+
+            border-bottom: 2px solid;
+            border-radius: 0;
+            font-size: 20px;
+            margin: 10px;
+        }
+
+        .inputf-css:focus {
+            outline: none !important;
+
+        }
+
+        *:focus {
+            outline: none !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container container-css ">
+        {{#if msg}}
+
+        <div class="alert alert-warning alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>{{msg}}</strong>
+
+        </div>
+        {{/if}}
+
+        <h3>Welcome {{admin}}</h3>
+        <hr />
+<h3>ADD PLANS</h3>
+
+        <form action="/add_Plan" method="post">
+            <div class="form-group">
+                <label for="exampleInputPassword1">Plan Name</label>
+                <input type="text" name='plname' class="form-control inputf-css" id="exampleInput"
+                    placeholder="enter your plan name" required>
+            </div>
+
+
+            <div class="form-group">
+                <label for="exampleInputPassword1">Price</label>
+                <input type="number" name='plprice' class="form-control inputf-css" id="exampleInput"
+                    placeholder="enter your price per year" required>
+            </div>
+
+            {{!-- <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" name='password' class="form-control inputf-css" id="exampleInputPassword1" placeholder="Password" required>
+            </div> --}}
+
+            <button type="submit" class="btn btn-danger mt-3 ml-2 p-2 bg">Submit</button>
+
+        </form>
+    </div>
+</body>

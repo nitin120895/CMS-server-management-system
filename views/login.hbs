@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+
+
+    <style>
+        .container-css{
+            margin-top: 50px;
+            width:400px;
+            border: 1px solid grey;
+            box-shadow: 0px 5px 5px grey;
+            padding:40px
+        }
+        .inputf-css{
+            border-top: none;
+            border-left:none;
+            border-right:none;
+            border-bottom: 2px solid ;
+            border-radius: 0;
+            font-size:20px ;
+            margin: 10px;
+        }
+      .form-group label{
+          font-size: 30px;
+
+      }
+    </style>
+</head>
+
+<body>
+
+    <div class="container container-css ">
+         {{#if msg}}
+
+  <div class="alert alert-warning alert-dismissible">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <strong>{{msg}}</strong>
+
+  </div>
+{{/if}}
+<h3>  LOGIN </h3>
+<br>
+  <form action="/C_logincheck" method="post">
+        
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" name='cemail' class="form-control inputf-css" id="exampleInputEmail1" aria-describedby="emailHelp"
+                    placeholder="Enter email" required>
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                    else.</small>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" name='cpassword' class="form-control inputf-css" id="exampleInputPassword1" placeholder="Password" required>
+            </div>
+
+            <button type="submit" class="btn btn-danger mt-3 ml-2 p-2 bg">Submit</button><br>
+            <a href="#" data-toggle="modal" data-target="#exampleModal">Forget password.. click here</a>
+
+        </form>
+    </div>
+
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Forget password</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form action="/forgetCustomersPass" method="POST">
+
+                            <input hidden type="text" name="id" id="planid">
+
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Email</label>
+                                <input type="text" name="email" class="form-control" id="planname"
+                                    aria-describedby="emailHelp" placeholder="Enter email"required>
+                            </div>
+
+
+
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-danger">get password</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+<style>
+  .container{
+    margin-top: 20px;
+  }
+.profile-pic{
+  margin: auto;
+  
+}
+.profile-pic img{
+  margin-top: 5px;
+width: 180px;
+height: 180px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 7px grey;
+}
+.card-body span{
+font-size: 20px;
+color: grey;
+margin: 10px;
+
+}
+
+</style>
+
+
+</head>
+
+<body>
+
+  <div class="container" class="mt-3">
+    {{#if msg}}
+
+    <div class="alert alert-success alert-dismissible">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <strong>{{msg}}</strong>
+
+    </div>
+    {{/if}}
+    <h3>Welcome user {{customer}}{{admin}}</h3>
+
+    <a class="btn btn-success" href="#" data-toggle="modal" data-target="#exampleModal">My profile</a>
+
+
+
+
+    <!---user profile->
+
+
+        <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">User profile</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <div class="card" style="width: 29rem;">
+              <div class="profile-pic">
+              <img src="./nitin.jpg" alt="img" width="100px" height="100px">
+
+              </div>
+
+              <div class="card-body">
+                {{#if data}}
+
+                <h5 class="card-title">User name : <span>{{data.name}}</span></h5>
+
+                <h5 class="card-title">Email : <span>{{data.email}}</span></h5>
+                <h5 class="card-title">Password : <span>{{data.password}}</span></h5>
+
+
+
+                <a href="#" data-toggle="modal" data-target="#changepass" class="btn btn-primary">Change password</a>
+
+
+
+
+                {{/if}}
+
+              </div>
+            </div>
+
+           
+          </div>
+
+
+
+        </div>
+      </div>
+    </div>
+
+
+
+    {{#if customer}}
+    <!-- change password customer model -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="changepass" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Change password</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+
+
+            <form action="/changeCustomerPass" method="POST">
+
+
+              <div class="form-group">
+                <label for="exampleInputEmail1">Email</label>
+                <input type="text" name="email" class="form-control" id="planname" aria-describedby="emailHelp"
+                  value="{{customer}}" placeholder="Enter email">
+              </div>
+
+              <div class="form-group">
+                <label for="exampleInputEmail1">Current password</label>
+                <input type="text" name="cpass" class="form-control" id="planname" aria-describedby="emailHelp"
+                  placeholder="Enter current">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">New password</label>
+                <input type="text" name="npass" class="form-control" id="planname" aria-describedby="emailHelp"
+                  placeholder="Enter new password">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1"> Confirm New password</label>
+                <input type="text" name="cnpass" class="form-control" id="planname" aria-describedby="emailHelp"
+                  placeholder="Enter new pass">
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger">Save changes</button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    {{/if}}
+
+
+    {{#if admin}}
+    <!-- change password customer model -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="changepass" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Change password</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+
+
+            <form action="/changeAdminPass" method="POST">
+
+
+              <div class="form-group">
+                <label for="exampleInputEmail1">Email</label>
+                <input type="text" name="email" class="form-control" id="planname" aria-describedby="emailHelp"
+                  value="{{admin}}" placeholder="Enter email">
+              </div>
+
+              <div class="form-group">
+                <label for="exampleInputEmail1">Current password</label>
+                <input type="text" name="cpass" class="form-control" id="planname" aria-describedby="emailHelp"
+                  placeholder="Enter current">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">New password</label>
+                <input type="text" name="npass" class="form-control" id="planname" aria-describedby="emailHelp"
+                  placeholder="Enter new password">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1"> Confirm New password</label>
+                <input type="text" name="cnpass" class="form-control" id="planname" aria-describedby="emailHelp"
+                  placeholder="Enter new pass">
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger">Save changes</button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    {{/if}}
+
+
+
+
+  </div>
+
+</body>
+
+</html>

@@ -1,0 +1,290 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+
+
+    <style>
+        label {
+            font-size: 20px;
+
+        }
+
+        .form-group {
+            margin-top: 20px;
+        }
+
+        .container-css {
+            margin-top: 50px;
+        }
+
+        .inputf-css {
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            border-bottom: 2px solid;
+            border-radius: 0;
+            font-size: 20px;
+            margin: 10px;
+        }
+
+        .inputf-css:focus {
+            outline: none !important;
+
+        }
+
+        *:focus {
+            outline: none !important;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container container-css ">
+        {{#if msg}}
+
+        <div class="alert alert-warning alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>{{msg}}</strong>
+
+        </div>
+        {{/if}}
+
+        <h3>Welcome {{admin}}</h3>
+        <hr />
+        <h3>CREATE ACCOUNT</h3>
+
+        <form action="/create_Account" method="post">
+            <div class="form-group ">
+                <label for="inputState">User email</label>
+
+                <div class="form-group col-md-4">
+                    <select id="inputState" class="form-control" name='email' required>
+                        <option selected>Choose...</option>
+
+                        {{#each usernames}}
+                        <option>{{this.email}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group ">
+                <label for="inputState">User name</label>
+
+                <div class="form-group col-md-4">
+                    <select id="inputState" class="form-control" name='username' required>
+                        <option selected>Choose...</option>
+
+                        {{#each usernames}}
+                        <option>{{this.name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputPassword1">Domain Name</label>
+                <input type="text" name='domainname' class="form-control inputf-css" id="exampleInput"
+                    placeholder="enter domain name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="inputState">Plan </label>
+
+                <div class="form-group col-md-4">
+                    <select class="form-control" name='planname' id="planWithprice" onchange="onplanchange()" required>
+                        <option selected>Choose...</option>
+                        {{#each plans}}
+
+                        <option>{{this.plan_name}} <span> $ {{this.price}} per year</span></option>
+                        {{/each}}
+
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputPassword1">Domain taken</label>
+                <br>
+                <div class="form-group col-md-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" onclick="domainChargesyes()" name="domaintaken"
+                            id="domainTaken1" value="yes" checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                            Yes
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" onclick="domainChargesno()" name="domaintaken"
+                            id="domainTaken" value="no">
+                        <label class="form-check-label" for="exampleRadios2">
+                            No
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group " id="domainCharges">
+                <label for="exampleInputPassword1">Domain charges </label>
+                <input type="number" name='domaincharges' class="form-control inputf-css" value='0' id="domain"
+                    placeholder="domain charges" required>
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputPassword1">resister date</label>
+                <input type="text" name='resisterdate' class="form-control inputf-css" id="resisterDate"
+                    placeholder="enter your name" required readonly>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Time period (in years)</label>
+                <input type="number" name='timeperiod' class="form-control inputf-css" id="planyears"
+                    placeholder="Time period (in years)" onkeyup="calctotal()" required>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Expiry date</label>
+                <input type="text" name='expirydate' class="form-control inputf-css" id="expiry"
+                    placeholder="expiry date" required readonly>
+            </div>
+
+
+
+
+
+            <div class="form-group">
+                <label for="exampleInputPassword1">Hosting charges </label>
+                <input type="number" name='hostingcharges' class="form-control inputf-css" id="hosting"
+                    placeholder="hosting charges" required readonly>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Total charges </label>
+                <input type="number" name='totalcharges' class="form-control inputf-css" id="totalcharges"
+                    placeholder=" Total chargess" required readonly>
+            </div>
+            {{!-- <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" name='password' class="form-control inputf-css" id="exampleInputPassword1" placeholder="Password" required>
+            </div> --}}
+
+            <button type="submit" class="btn btn-danger">Submit</button>
+        </form>
+    </div>
+
+
+
+
+
+
+    <script>
+
+
+        const resisterdate = new Date();
+        console.log(resisterdate)
+        const Currdate = resisterdate.getDate()
+        const Currmonth = resisterdate.getMonth() + 1
+        const Curryear = resisterdate.getFullYear()
+
+        const currdatesqlfomate = Curryear + "-" + Currmonth + "-" + Currdate
+        document.getElementById("resisterDate").value = currdatesqlfomate;
+
+        function onplanchange() {
+            ///////////////for get  plan name and charges//////////////// 
+            const plan = document.getElementById("planWithprice").value ///retun string
+            const hostingcharges = document.getElementById('hosting')
+
+            //slpit plan name and price
+            const planname = plan.split(' ')[0]
+            const planprice = plan.split(' ')[3]
+            // console.log(planname)
+            //console.log(planprice)
+
+            ///set planprice in hosting charges
+            hostingcharges.value = planprice;
+
+        }
+
+
+        function domainChargesyes() {
+
+            let domainTaken = document.getElementById('domainTaken1').value
+            const domainCharges = document.getElementById("domainCharges")
+            console.log(domainTaken)
+           // console.log(domainCharges)
+
+            if (domainTaken == "no")
+                domainCharges.style.display = 'none'
+            else
+                domainCharges.style.display = 'block'
+
+
+        }
+        /////////////////if domain taken no/////////
+        function domainChargesno() {
+
+            let domainTaken = document.getElementById('domainTaken').value;
+
+            const domainCharges = document.getElementById("domainCharges")
+            console.log(domainTaken)
+            //console.log(domainCharges)
+
+            if (domainTaken == "no")
+                domainCharges.style.display = 'none'
+            else
+                domainCharges.style.display = 'block'
+
+
+        }
+        /////////////////////////////////// total calculation (expiry date and total charges) 
+
+        function calctotal() {
+            const plan = document.getElementById("planWithprice").value ///retun string
+            const hostingcharges = document.getElementById('hosting')
+            const domainCharges = document.getElementById("domain")
+            const domainTakenyes = document.getElementById('domainTaken1').value
+            const domainTakenno = document.getElementById('domainTaken').value
+
+            console.log(domainTakenyes);
+            console.log(domainTakenno);
+
+
+            const planYears = Math.abs(document.getElementById("planyears").value);
+            // console.log(planYears);
+            const totalcharges = document.getElementById('totalcharges')
+            //slpit plan name and price
+            const planname = plan.split(' ')[0]
+            const planprice = plan.split(' ')[3]
+
+            let total = 0
+           
+             if (planname == planname ) {
+                console.log(domainCharges.value);
+
+                total = (planYears * hostingcharges.value) + Math.abs(domainCharges.value)
+                totalcharges.value = total
+                console.log(total)
+            }
+
+            ////////////for expiry date calculation
+            const curr_date = new Date();
+            //const fullyear = curr_date.getFullYear()
+            // console.log(new Date(curr_date.setFullYear(curr_date.getFullYear() + planYears)));
+
+            const expirydate = new Date(curr_date.setFullYear(curr_date.getFullYear() + planYears));
+            const exdate = expirydate.getDate()
+            const exyear = expirydate.getFullYear()
+            const exmonth = expirydate.getMonth() + 1
+            const expirysqlfomate = exyear + "-" + exmonth + "-" + exdate
+            console.log(expirysqlfomate)
+            document.getElementById("expiry").value = expirysqlfomate;
+        }
+
+
+
+
+
+
+    </script>
+
+</body>

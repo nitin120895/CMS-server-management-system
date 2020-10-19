@@ -7,7 +7,7 @@ const bodyparser = require('body-parser');
 const nodemailer = require('nodemailer');
 
 const mysql = require('mysql');
-
+const PORT= process.env.PORT || 3000
 //connect database
 const con = mysql.createConnection({
     user: "root",
@@ -39,8 +39,8 @@ app.use(bodyparser.urlencoded({
 
 //server started
 
-app.listen(3000, () => {
-    console.log("server started on port :3000");
+app.listen(PORT, () => {
+    console.log("server started on port :"+PORT);
 })
 
 

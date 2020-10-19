@@ -78,32 +78,33 @@ app.get('/admin', (req, res) => {
 })
 
 app.get('/', (req, res) => {
-    let sql = "select * from accounts where  datediff(expirydate,curdate()) >=0 and datediff(expirydate,curdate()) <=7;";
-    con.query(sql, (err, result) => {
-        console.log(result[0]);
-        if (err)
-            throw err
-        else if (result.length != 0) {
-            console.log(result[0].email);
-            console.log(result[0].username);
+    // let sql = "select * from accounts where  datediff(expirydate,curdate()) >=0 and datediff(expirydate,curdate()) <=7;";
+    // con.query(sql, (err, result) => {
+    //     console.log(result[0]);
+    //     if (err)
+    //         throw err
+    //     else if (result.length != 0) {
+    //         console.log(result[0].email);
+    //         console.log(result[0].username);
 
-            var mailOptions = {
-                from: "nitinproject12@gmail.com",
-                to: result[0].email,
-                subject: "your server  expiry date is near",
-                text: "HELLOW  MR.  " + result[0].username + " \nyour server expiry date  is near please do recharge for continue services for your website  \n  THANK YOU "
-            }
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error)
-                    throw error
-                else
-                    res.render('login')
+    //         var mailOptions = {
+    //             from: "nitinproject12@gmail.com",
+    //             to: result[0].email,
+    //             subject: "your server  expiry date is near",
+    //             text: "HELLOW  MR.  " + result[0].username + " \nyour server expiry date  is near please do recharge for continue services for your website  \n  THANK YOU "
+    //         }
+    //         transporter.sendMail(mailOptions, (error, info) => {
+    //             if (error)
+    //                 throw error
+    //             else
+    //                 res.render('login')
 
-            })
+    //         })
 
-        }
+    //     }
 
-    })
+    // })
+    res.render('login')
 })
 
 
